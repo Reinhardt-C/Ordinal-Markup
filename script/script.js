@@ -152,7 +152,7 @@ function loop(unadjusted, off = 0) {
 	increment(1);
 	maximize();
 	maxall();
-  game.dynamic = 1e308;
+	game.dynamic = 1e308;
 	if (game.chal8 == 1 && game.decrementy < 10) {
 		ms = 50;
 	}
@@ -1172,45 +1172,34 @@ function bup(x, spectate = 0) {
 	get("bup" + x).classList.remove("bought");
 	get("bup" + x).classList.add("locked");
 	if (!game.upgrades.includes(x)) {
-		if (
-			game.boosters >= bupUpgradeCosts[x - 1] &&
-			(game.leastBoost <= 1.5 || (game.challenge != 6 && game.challenge != 7))
-		) {
-			if (
-				!(x == 12 && !(getSumOfChallenges() >= 7)) &&
-				!(x == 16 && !(getSumOfChallenges() >= 22)) &&
-				!(x == 20 && !(getSumOfChallenges() >= 33)) &&
-				!(x == 24 && !(getSumOfChallenges() >= 37)) &&
-				(x < 4.5 || game.upgrades.includes(x - 4))
-			) {
-				if (spectate == 0) {
-					if (x == 16 && collapseAnimation == 0) {
-						let a = confirm(
-							"Buying this upgrade will destroy everything booster destroys, along with all of your upgrades, autobuyers, challenges, incrementy, incrementy upgrades, and manifolds for a single currency of the next prestige layer. Are you ready for this?"
-						);
-						if (a) {
-							let b = confirm("Are you really sure about this? YOU WILL LOSE EVERYTHING YOU HAVE!");
-							if (b) {
-								let c = confirm(
-									"ARE YOU REALLY SURE YOU WANT TO DO THAT! YOU WILL LOSE EVERYTHING AND YOU CAN'T UNDO THIS AND MOM WILL GET MAD AND YOU WILL SEE A GLIMPSE OF THE UNKNOWN AND THIS IS YOUR LAST CHANCE!!!"
-								);
-								if (c) {
-									collapse();
-								}
+		if (game.boosters >= 0) {
+			if (spectate == 0) {
+				if (x == 16 && collapseAnimation == 0) {
+					let a = confirm(
+						"Buying this upgrade will destroy everything booster destroys, along with all of your upgrades, autobuyers, challenges, incrementy, incrementy upgrades, and manifolds for a single currency of the next prestige layer. Are you ready for this?"
+					);
+					if (a) {
+						let b = confirm("Are you really sure about this? YOU WILL LOSE EVERYTHING YOU HAVE!");
+						if (b) {
+							let c = confirm(
+								"ARE YOU REALLY SURE YOU WANT TO DO THAT! YOU WILL LOSE EVERYTHING AND YOU CAN'T UNDO THIS AND MOM WILL GET MAD AND YOU WILL SEE A GLIMPSE OF THE UNKNOWN AND THIS IS YOUR LAST CHANCE!!!"
+							);
+							if (c) {
+								collapse();
 							}
 						}
-					} else {
-						if (x % 4 != 0) game.boosters -= bupUpgradeCosts[x - 1];
-						game.upgrades.push(x);
-						get("bup" + x).classList.remove("canbuy");
-						get("bup" + x).classList.add("bought");
-						get("bup" + x).classList.remove("locked");
 					}
 				} else {
-					get("bup" + x).classList.add("canbuy");
-					get("bup" + x).classList.remove("bought");
+					if (x % 4 != 0) game.boosters -= bupUpgradeCosts[x - 1];
+					game.upgrades.push(x);
+					get("bup" + x).classList.remove("canbuy");
+					get("bup" + x).classList.add("bought");
 					get("bup" + x).classList.remove("locked");
 				}
+			} else {
+				get("bup" + x).classList.add("canbuy");
+				get("bup" + x).classList.remove("bought");
+				get("bup" + x).classList.remove("locked");
 			}
 		}
 	} else {
